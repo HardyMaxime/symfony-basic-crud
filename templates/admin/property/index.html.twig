@@ -4,6 +4,12 @@
 
 {% block body %}
     <h1>Gérer vos biens</h1>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <a href="{{ path('admin_property_create') }}" class="btn btn-secondary mt-2 mb-2">Créer un nouveau bien</a>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -17,9 +23,15 @@
                     <td> {{ property.title }} </td>
                     <td>
                         <a href="{{ path('admin_property_edit', {id: property.id}) }}" class="btn btn-secondary">Editer</a>
+                        <form onsubmit="return confirm("Êtes-vous vraiment sur ?")" method="post" style="display:inline-block;" action="{{ path('admin_property_delete', {'id': property.id}) }}">
+                            <input type="hidden" name="_method" value="DELETE" >
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ property.id) }}" >
+                            <button class="btn btn-danger">Supprimer</button>
+                        </form>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        
 {% endblock %}

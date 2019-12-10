@@ -4,5 +4,5 @@
 
 {% block body %}
     <h1>Vous édité le bien {{ property.title }}</h1>
-  
+        {{ include ('admin/property/_form.html.twig', { button:'Valider les modifications'}) }}
 {% endblock %}
